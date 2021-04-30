@@ -1,0 +1,73 @@
+{
+  "name": "api-rest-ts",
+  "version": "1.0.0",
+  "description": "A TypeScript simple application template",
+  "main": "bin/index.ts",
+  "scripts": {
+    "start": "npm run build && node ./dist/index.js",
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean && tsc && cp ./src/.env ./dist/.env",
+    "build2": "npm run clean && tsc && cp ./src/.env ./dist/.env && cp -R ./src/storage ./dist",
+    "watch": "tsc-watch --onSuccess \"npm start\"",
+    "serve": "npm run build && npm run seed && npm run start",
+    "test": "jest --detectOpenHandles",
+    "test-watch": "tsc-watch --onSuccess \"npm test\"",
+    "seed": "node ./dist/bin/seeder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DouglasMarq/NITRA-BOT/"
+  },
+  "keywords": [
+    "template",
+    "node",
+    "express",
+    "simple",
+    "github",
+    "typescript"
+  ],
+  "author": "Douglas Marques Alves <douglas.marq.alves@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DouglasMarq/NITRA-BOT/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@discordjs/opus": "^0.5.0",
+    "@typeit/discord": "^4.0.9",
+    "@types/body-parser": "^1.19.0",
+    "@types/compression": "^1.7.0",
+    "@types/config": "0.0.38",
+    "@types/cors": "^2.8.10",
+    "@types/express": "^4.17.11",
+    "@types/express-enforces-ssl": "^1.1.1",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/lodash": "^4.14.168",
+    "@types/mongoose": "^5.10.3",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "config": "^3.3.4",
+    "cors": "^2.8.5",
+    "discord.js": "^12.5.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-enforces-ssl": "^1.1.0",
+    "global": "^4.4.0",
+    "helmet": "^4.4.1",
+    "inversify": "^5.0.5",
+    "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^5.11.18",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^9.1.1",
+    "tsc": "^1.20150623.0",
+    "tsc-watch": "^4.2.9",
+    "tslib": "^2.2.0",
+    "winston": "^3.3.3",
+    "ytdl-core": "^4.5.0"
+  }
+}
