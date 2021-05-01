@@ -61,6 +61,15 @@ export default class Events {
         this.voice.skipCommand(message);
     }
 
+    @Command('queue')
+    private showQueueCommand(message: CommandMessage){
+        this.voice.showQueueCommand(message);
+    }
+
+    @Command('shuffle')
+    private shuffleCommand(message: CommandMessage){
+        this.voice.shuffleCommand(message);
+    }
 
 
     //-------------------------- MESSAGE --------------------------
@@ -85,7 +94,7 @@ export default class Events {
         message.reply(`Comando não existente. Digite ${BOT_PREFIX}help`);
     }
 
-    @Command('Cagaram')
+    @Command('cagaram')
     private cagaramNoEstojoDoLeo(message: CommandMessage){
         // message.reply(`Cagaram no estojo do <@243107174186876930> denovo? Q otario haha`);me marca
         message.channel.send('Cagaram no estojo do <@243107174186876930> denovo? Q otario haha');

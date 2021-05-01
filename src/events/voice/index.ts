@@ -19,7 +19,7 @@ export default class Voice {
 
     public clearQueueCommand(message: CommandMessage) {
         if (!this.whitelist[message.channel.id]) return;
-        this.queue = [];
+        this.clearQueueTool();
         message.reply('Lista de Música limpa.');
     }
 
@@ -48,7 +48,27 @@ export default class Voice {
             this.queue = this.queue.splice(1);
             this.playMusic();
         } else {
+            this.clearQueueTool();
             message.member?.voice.channel?.leave();
+        }
+    }
+
+    public shuffleCommand(message: CommandMessage){
+        if (!this.whitelist[message.channel.id]) return;
+        this.queue = this.shuffle(this.queue);
+    }
+
+    public showQueueCommand(message: CommandMessage){
+        if (!this.whitelist[message.channel.id]) return;
+        if(this.queue.length < 1) message.reply('Não há itens na fila de musica.');
+        else {
+            let text = '';
+            for(const i in this.queue) {
+                let iAux = parseInt(i) + 1;
+                if(iAux === 1) text += `${iAux}. ${this.queue[i]} <---Now Playing\n`
+                else text += `${iAux}. ${this.queue[i]}\n`;
+            }
+            message.channel.send("```" + text + "```");
         }
     }
 
@@ -66,7 +86,7 @@ export default class Voice {
 
     public nowPlayingCommand(message: CommandMessage) {
         if (!this.whitelist[message.channel.id]) return;
-        // this.dispatcher?.
+        // to@do
     }
 
     public volumeCommand(message: CommandMessage) {
@@ -79,8 +99,23 @@ export default class Voice {
 
     public leaveVoiceCommand(message: CommandMessage) {
         if (!this.whitelist[message.channel.id]) return;
+        this.clearQueueTool();
         message.member?.voice.channel?.leave();
     }
 
+    private shuffle(a: string[]) {
+        let aux = a.shift();
+        for (let i = a.length - 1; i > 0; i--) {
+            if(i === 0) continue;
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        if(aux) a.unshift(aux);
+        return a;
+        this.showQueueCommand()
+    }
 
+    private clearQueueTool() {
+        this.queue = [];
+    }
 }
