@@ -2,6 +2,8 @@ import config from 'config';
 import { StreamDispatcher, VoiceConnection } from "discord.js";
 import { CommandMessage, CommandNotFound, Client } from "@typeit/discord";
 import { StreamTransportOptions } from 'winston/lib/winston/transports';
+import { monitorEventLoopDelay } from 'node:perf_hooks';
+import { repeat } from 'lodash';
 const ytdl = require('ytdl-core');
 
 export default class Voice {
@@ -53,6 +55,13 @@ export default class Voice {
         }
     }
 
+    public stopCommand(message: CommandMessage){
+        if (!this.whitelist[message.channel.id]) return;
+        this.player?.dispatcher.end();
+        this.clearQueueTool();
+        message.reply(`Parei de tocar? Bota outro som ae :D`)
+    }
+
     public shuffleCommand(message: CommandMessage){
         if (!this.whitelist[message.channel.id]) return;
         this.queue = this.shuffle(this.queue);
@@ -88,6 +97,12 @@ export default class Voice {
         if (!this.whitelist[message.channel.id]) return;
         // to@do
     }
+
+    public loopCommand(message: CommandMessage){
+        if (!this.whitelist[message.channel.id]) return;
+        //to@do
+   }
+    
 
     public volumeCommand(message: CommandMessage) {
         if (!this.whitelist[message.channel.id]) return;

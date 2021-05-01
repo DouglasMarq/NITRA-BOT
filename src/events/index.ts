@@ -71,6 +71,16 @@ export default class Events {
         this.voice.shuffleCommand(message);
     }
 
+    @Command('stop')
+    private stopCommand(message: CommandMessage){
+        this.voice.stopCommand(message)
+    }
+
+    @Command('loop')
+    private loopCommand(message: CommandMessage){
+        this.voice.loopCommand(message)
+    }
+
 
     //-------------------------- MESSAGE --------------------------
 
