@@ -23,10 +23,41 @@ server: {
   },
   bot_config: {
     prefix: process.env.BOT_PREFIX,
-    commands: {
-        help: {
-
+    commands: [
+        {
+            command: 'help',
+            action: 'Comandos disponíveis: purge, volume, play, pause, resume, leave, disconnect'
+        },
+        {
+            command: 'purge',
+            action: 'tanãnã'
+        },
+        {
+            command: 'volume',
+            action: 'tanãnã'
+        },
+        {
+            command: 'hello',
+            action: 'tanãnã'
+        },
+        {
+            command: 'play',
+            action: 'tanãnã'
+        },
+        {
+            command: 'disconnect',
+            action: 'tanãnã'
+        },
+        {
+            command: 'leave',
+            action: 'tanãnã'
         }
+    ],
+    blacklist: {
+        '837515162248282153': true
+    },
+    whitelist: {
+        '837515162248282153': true
     }
   },
 };

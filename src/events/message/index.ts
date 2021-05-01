@@ -1,61 +1,30 @@
-import { injectable } from "inversify";
 import config from 'config';
-import { Discord, Command, CommandMessage, CommandNotFound, Client } from "@typeit/discord";
-import * as fs from 'fs';
-const ytdl = require('ytdl-core');
+import { Command, CommandMessage, CommandNotFound } from "@typeit/discord";
 
-@Discord(config.get('bot_config.prefix'))
-@injectable()
 export default class Message {
-    private test: any;
-    constructor() {
+    private readonly blacklist: any;
+    private readonly whitelist: any;
+    private readonly commands: Map<string, string>;
+    constructor(commands: Map<string, string>) {
+        this.commands = commands;
+        this.blacklist = config.get('bot_config.blacklist');
+        this.whitelist = config.get('bot_config.whitelist');
     }
 
-    @Command('hello')
-    private hello(message: CommandMessage) {
-        if(message.channel.id !== '837515162248282153') return;
-        message.channel.startTyping();
+    public helloCommand(message: CommandMessage) {
+        if (!this.whitelist[message.channel.id]) return;
         message.reply(`Hello.`);
-        message.channel.stopTyping();
     }
 
-    @Command('purge :number')
-    private bulkDeleteCommand(message: CommandMessage) {
-        if(message.channel.id !== '837515162248282153') return;
-        message.channel.messages.channel.bulkDelete(message.args.number);
+    public helpCommand(message: CommandMessage) {
+        if(!this.commands.has(message.commandContent)) return;
+        let getCommand = this.commands.get(message.commandContent);
+        if(getCommand) message.reply(getCommand);
     }
 
-    @Command('play :url')
-    private async playMusicCommand(message: CommandMessage) {
-        if(message.channel.id !== '837515162248282153') return;
-        this.test = await message.member?.voice.channel?.join();
-
-        if(!fs.existsSync('/tmp/mp3')) {
-            fs.mkdirSync('/tmp/mp3', { recursive: true });
-        }
-
-        let dispatcher = this.test?.play(ytdl(message.args.url));
-        dispatcher?.on('end', (err: any) => {
-            this.test?.channel.leave();
-        });
-    }
-
-    @Command('volume :args')
-    private volumeCommand(message: CommandMessage) {
-        if(message.channel.id !== '837515162248282153') return;
-        //@todo
-    }
-
-    @Command('disconnect')
-    private disconnectVoiceCommand(message: CommandMessage) {
-        if(message.channel.id !== '837515162248282153') return;
-        message.member?.voice.channel?.leave();
-    }
-
-    @CommandNotFound()
-    private notFound(message: CommandMessage) {
-        if(message.channel.id !== '837515162248282153') return;
-        message.reply("Comando não encontrado.");
-        console.log(message);
+    public bulkDeleteCommand(message: CommandMessage) {
+        let number = message.args.number;
+        if(number > 100) message.reply('Limitado a 100 mensagens.');
+        else message.channel.messages.channel.bulkDelete(number);
     }
 }
