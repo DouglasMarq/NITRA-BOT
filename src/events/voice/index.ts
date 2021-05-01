@@ -111,8 +111,8 @@ export default class Voice {
             [a[i], a[j]] = [a[j], a[i]];
         }
         if(aux) a.unshift(aux);
+        if(this.actualChannel)(this.showQueueCommand(this.actualChannel))
         return a;
-        this.showQueueCommand()
     }
 
     private clearQueueTool() {
