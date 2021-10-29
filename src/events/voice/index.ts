@@ -102,7 +102,7 @@ export default class Voice {
         if (!this.whitelist[message.channel.id]) return;
         //to@do
    }
-    
+
 
     public volumeCommand(message: CommandMessage) {
         if (!this.whitelist[message.channel.id]) return;
