@@ -1,14 +1,13 @@
 import { injectable } from "inversify";
 import config from 'config';
-import { Command, CommandMessage, Discord, CommandNotFound } from "@typeit/discord";
-import {SimpleCommand, SimpleCommandMessage, SimpleCommandOption} from 'discordx'
+import {Discord, SimpleCommand, SimpleCommandMessage, SimpleCommandOption} from 'discordx'
 import Message from "./message";
 import Log from "../util/log";
 import Voice from './voice';
 
 const BOT_PREFIX: string = config.get('bot_config.prefix')
 
-@Discord(BOT_PREFIX)
+@Discord()
 @injectable()
 export default class Events {
     private message: Message;
@@ -27,9 +26,10 @@ export default class Events {
         this.voice.clearQueueCommand(command.message);
     }
 
-    @SimpleCommand('play :url')
-    private async playMusicCommand(command: SimpleCommandMessage) {
-        this.voice.playMusicCommand(command.message);
+    @SimpleCommand('play')
+    private async playMusicCommand(@SimpleCommandOption('url', {type: 'STRING'}) url: string | undefined,
+    command: SimpleCommandMessage) {
+        this.voice.playMusicCommand(url, command.message);
     }
 
     @SimpleCommand('pause')
@@ -47,9 +47,10 @@ export default class Events {
         this.voice.nowPlayingCommand(command.message);
     }
 
-    @SimpleCommand('volume :value')
-    private volumeCommand(command: SimpleCommandMessage) {
-        this.voice.volumeCommand(command.message);
+    @SimpleCommand('volume')
+    private volumeCommand(@SimpleCommandOption('value', {type: 'INTEGER'}) value: number | undefined,
+        command: SimpleCommandMessage) {
+        this.voice.volumeCommand(value, command.message);
     }
 
     @SimpleCommand('leave')
@@ -90,9 +91,10 @@ export default class Events {
         this.message.helloCommand(command.message);
     }
 
-    @SimpleCommand('purge :number')
-    private bulkDeleteCommand(command: SimpleCommandMessage) {
-        this.message.bulkDeleteCommand(command.message);
+    @SimpleCommand('purge')
+    private bulkDeleteCommand(@SimpleCommandOption(`number`, {type: 'INTEGER'}) number: number | undefined,
+        command: SimpleCommandMessage) {
+        this.message.bulkDeleteCommand(number, command.message);
     }
 
     @SimpleCommand('help')
@@ -100,15 +102,15 @@ export default class Events {
         this.message.helpCommand(command.message);
     }
 
-    @SimpleCommandNotFound()
-    private notFound(command: SimpleCommandMessage) {
-        message.reply(`Comando não existente. Digite ${BOT_PREFIX}help`);
-    }
+    // @SimpleCommandNotFound()
+    // private notFound(command: SimpleCommandMessage) {
+    //     command.message.reply(`Comando não existente. Digite ${BOT_PREFIX}help`);
+    // }
 
     @SimpleCommand('cagaram')
     private cagaramNoEstojoDoLeo(command: SimpleCommandMessage){
         // message.reply(`Cagaram no estojo do <@243107174186876930> denovo? Q otario haha`);me marca
-        message.channel.send('Cagaram no estojo do <@243107174186876930> denovo? Q otario haha');
+        command.message.channel.send('Cagaram no estojo do <@243107174186876930> denovo? Q otario haha');
     }
 
     //-------------------------- OTHERS --------------------------

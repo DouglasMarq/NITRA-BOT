@@ -1,6 +1,5 @@
 import config from 'config';
-import { StreamDispatcher, VoiceConnection } from "discord.js";
-import { CommandMessage, CommandNotFound, Client } from "@typeit/discord";
+import { Message } from "discord.js";
 import { SimpleCommandMessage } from "discordx"
 import { StreamTransportOptions } from 'winston/lib/winston/transports';
 import { monitorEventLoopDelay } from 'node:perf_hooks';
@@ -8,9 +7,9 @@ import { repeat } from 'lodash';
 const ytdl = require('ytdl-core');
 
 export default class Voice {
-    private actualChannel: CommandMessage | undefined;
-    private player: VoiceConnection | undefined;
-    private dispatcher: StreamDispatcher | undefined;
+    private actualChannel: SimpleCommandMessage | undefined;
+    // private player: VoiceConnection | undefined;
+    // private dispatcher: StreamDispatcher | undefined;
     private readonly blacklist: any;
     private readonly whitelist: any;
     private queue: string[];
@@ -20,56 +19,57 @@ export default class Voice {
         this.queue = [];
     };
 
-    public clearQueueCommand(message: CommandMessage) {
+    public clearQueueCommand(message: Message) {
         if (!this.whitelist[message.channel.id]) return;
         this.clearQueueTool();
         message.reply('Lista de Música limpa.');
     }
 
-    public async playMusicCommand(message: CommandMessage) {
+    public async playMusicCommand(url: string | undefined, message: Message) {
         if (!this.whitelist[message.channel.id]) return;
-        message.delete({reason: 'delete play command'});
-        this.player = await message.member?.voice.channel?.join();
-        this.queue.push(message.args.url);
+        if(!url) return;
+        message.channel.delete('delete play command');
+        // this.player = await message.member?.voice.channel?.join();
+        this.queue.push(url);
 
         if (this.queue.length < 2) {
-            this.actualChannel = message;
+            // this.actualChannel = message;
             this.playMusic();
         }
     }
 
     private playMusic() {
-        if(this.actualChannel) this.actualChannel.reply(`Agora está tocando ${this.queue[0]}`);
-        this.player?.play(ytdl(this.queue[0])).on('finish', () => {
-            this.queue = this.queue.splice(1);
-            if (this.queue.length !== 0) this.playMusic();
-        });
+        // if(this.actualChannel) this.actualChannel.message.reply(`Agora está tocando ${this.queue[0]}`);
+        // this.player?.play(ytdl(this.queue[0])).on('finish', () => {
+        //     this.queue = this.queue.splice(1);
+        //     if (this.queue.length !== 0) this.playMusic();
+        // });
     }
 
-    public skipCommand(message: CommandMessage){
+    public skipCommand(message: Message){
+        // if (!this.whitelist[message.channel.id]) return;
+        // if(this.queue.length > 2){
+        //     this.queue = this.queue.splice(1);
+        //     this.playMusic();
+        // } else {
+        //     this.clearQueueTool();
+        //     // message.member?.voice.channel?.leave();
+        // }
+    }
+
+    public stopCommand(message: Message){
+        // if (!this.whitelist[message.channel.id]) return;
+        // this.player?.dispatcher.end();
+        // this.clearQueueTool();
+        // message.reply(`Parei de tocar? Bota outro som ae :D`)
+    }
+
+    public shuffleCommand(message: Message){
         if (!this.whitelist[message.channel.id]) return;
-        if(this.queue.length > 2){
-            this.queue = this.queue.splice(1);
-            this.playMusic();
-        } else {
-            this.clearQueueTool();
-            message.member?.voice.channel?.leave();
-        }
+        // this.queue = this.shuffle(this.queue);
     }
 
-    public stopCommand(message: CommandMessage){
-        if (!this.whitelist[message.channel.id]) return;
-        this.player?.dispatcher.end();
-        this.clearQueueTool();
-        message.reply(`Parei de tocar? Bota outro som ae :D`)
-    }
-
-    public shuffleCommand(message: CommandMessage){
-        if (!this.whitelist[message.channel.id]) return;
-        this.queue = this.shuffle(this.queue);
-    }
-
-    public showQueueCommand(message: CommandMessage){
+    public showQueueCommand(message: Message){
         if (!this.whitelist[message.channel.id]) return;
         if(this.queue.length < 1) message.reply('Não há itens na fila de musica.');
         else {
@@ -83,53 +83,54 @@ export default class Voice {
         }
     }
 
-    public pauseCommand(message: CommandMessage) {
-        if (!this.whitelist[message.channel.id]) return;
-        this.player?.dispatcher.pause();
-        message.reply('pausado.');
+    public pauseCommand(message: Message) {
+    //     if (!this.whitelist[message.channel.id]) return;
+    //     this.player?.dispatcher.pause();
+    //     message.reply('pausado.');
     }
 
-    public resumeCommand(message: CommandMessage) {
-        if (!this.whitelist[message.channel.id]) return;
-        this.player?.dispatcher?.resume();
-        message.reply('resumido.');
+    public resumeCommand(message: Message) {
+        // if (!this.whitelist[message.channel.id]) return;
+        // this.player?.dispatcher?.resume();
+        // message.reply('resumido.');
     }
 
-    public nowPlayingCommand(message: CommandMessage) {
+    public nowPlayingCommand(message: Message) {
         if (!this.whitelist[message.channel.id]) return;
         // to@do
     }
 
-    public loopCommand(message: CommandMessage){
+    public loopCommand(message: Message){
         if (!this.whitelist[message.channel.id]) return;
         //to@do
    }
 
 
-    public volumeCommand(message: CommandMessage) {
+    public volumeCommand(value: number | undefined, message: Message) {
         if (!this.whitelist[message.channel.id]) return;
-        let bool: any = message.args.value > 100 ? ((message.args.value = 100) / 100) : (message.args.value / 100);
+        if (!value) return;
+        let bool: any = value > 100 ? ((value = 100) / 100) : (value / 100);
         if (bool < 0) bool = 0;
-        this.dispatcher?.setVolume(bool);
+        // this.dispatcher?.setVolume(bool);
         message.reply(`Colocando o volume em ${bool * 100}%`);
     }
 
-    public leaveVoiceCommand(message: CommandMessage) {
+    public leaveVoiceCommand(message: Message) {
         if (!this.whitelist[message.channel.id]) return;
         this.clearQueueTool();
-        message.member?.voice.channel?.leave();
+        // message.member?.voice.channel?.leave();
     }
 
     private shuffle(a: string[]) {
-        let aux = a.shift();
-        for (let i = a.length - 1; i > 0; i--) {
-            if(i === 0) continue;
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-        }
-        if(aux) a.unshift(aux);
-        if(this.actualChannel)(this.showQueueCommand(this.actualChannel))
-        return a;
+        // let aux = a.shift();
+        // for (let i = a.length - 1; i > 0; i--) {
+        //     if(i === 0) continue;
+        //     const j = Math.floor(Math.random() * (i + 1));
+        //     [a[i], a[j]] = [a[j], a[i]];
+        // }
+        // if(aux) a.unshift(aux);
+        // if(this.actualChannel)(this.showQueueCommand(this.actualChannel))
+        // return a;
     }
 
     private clearQueueTool() {

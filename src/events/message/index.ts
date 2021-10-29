@@ -1,5 +1,6 @@
 import config from 'config';
 import { Discord, SimpleCommand, SimpleCommandMessage, SimpleCommandOption } from 'discordx';
+import { Message as msg } from 'discord.js';
 
 @Discord()
 export default class Message {
@@ -12,20 +13,17 @@ export default class Message {
         this.whitelist = config.get('bot_config.whitelist');
     }
 
-    @SimpleCommand("hello")
-    public helloCommand(command: SimpleCommandMessage) {
+    public helloCommand(message: msg) {
         // if (!this.whitelist[message.channel.id]) return;
-        command.message.reply(`Hello.`);
+        message.reply(`Hello.`);
     }
 
-    @SimpleCommand("help")
-    public helpCommand(command: SimpleCommandMessage) {
-        command.message.reply(`!help`);
+    public helpCommand(message: msg) {
+        message.reply(`!help`);
     }
 
-    @SimpleCommand("purge")
-    public bulkDeleteCommand(@SimpleCommandOption("number", {type: "NUMBER"}) number: number | undefined, command: SimpleCommandMessage) {
-        if (!number) command.message.reply('Uso: !purge <<numero de mensagens aqui, limitado à 100>>');
+    public bulkDeleteCommand(number: number | undefined, message: msg) {
+        if (!number) message.reply('Uso: !purge <<numero de mensagens aqui, limitado à 100>>');
 
         // if (number > 100) command.message.reply('Limitado a 100 mensagens.');
         // else command.message.channel.bulkDelete();
