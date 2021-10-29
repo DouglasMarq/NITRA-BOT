@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import config from 'config';
 import { Command, CommandMessage, Discord, CommandNotFound } from "@typeit/discord";
+import {SimpleCommand, SimpleCommandMessage, SimpleCommandOption} from 'discordx'
 import Message from "./message";
 import Log from "../util/log";
 import Voice from './voice';
@@ -21,91 +22,91 @@ export default class Events {
     }
 
     //-------------------------- VOICE --------------------------
-    @Command('clear')
-    private clearCommand(message: CommandMessage) {
-        this.voice.clearQueueCommand(message);
+    @SimpleCommand('clear')
+    private clearCommand(command: SimpleCommandMessage) {
+        this.voice.clearQueueCommand(command.message);
     }
 
-    @Command('play :url')
-    private async playMusicCommand(message: CommandMessage) {
-        this.voice.playMusicCommand(message);
+    @SimpleCommand('play :url')
+    private async playMusicCommand(command: SimpleCommandMessage) {
+        this.voice.playMusicCommand(command.message);
     }
 
-    @Command('pause')
-    private pauseCommand(message: CommandMessage) {
-        this.voice.pauseCommand(message);
+    @SimpleCommand('pause')
+    private pauseCommand(command: SimpleCommandMessage) {
+        this.voice.pauseCommand(command.message);
     }
 
-    @Command('resume')
-    private resumeCommand(message: CommandMessage) {
-        this.voice.resumeCommand(message);
+    @SimpleCommand('resume')
+    private resumeCommand(command: SimpleCommandMessage) {
+        this.voice.resumeCommand(command.message);
     }
 
-    @Command('playing')
-    private nowPlaying(message: CommandMessage) {
-        this.voice.nowPlayingCommand(message);
+    @SimpleCommand('playing')
+    private nowPlaying(command: SimpleCommandMessage) {
+        this.voice.nowPlayingCommand(command.message);
     }
 
-    @Command('volume :value')
-    private volumeCommand(message: CommandMessage) {
-        this.voice.volumeCommand(message);
+    @SimpleCommand('volume :value')
+    private volumeCommand(command: SimpleCommandMessage) {
+        this.voice.volumeCommand(command.message);
     }
 
-    @Command('leave')
-    private leaveVoiceCommand(message: CommandMessage) {
-        this.voice.leaveVoiceCommand(message);
+    @SimpleCommand('leave')
+    private leaveVoiceCommand(command: SimpleCommandMessage) {
+        this.voice.leaveVoiceCommand(command.message);
     }
 
-    @Command('skip')
-    private skipCommand(message: CommandMessage){
-        this.voice.skipCommand(message);
+    @SimpleCommand('skip')
+    private skipCommand(command: SimpleCommandMessage){
+        this.voice.skipCommand(command.message);
     }
 
-    @Command('queue')
-    private showQueueCommand(message: CommandMessage){
-        this.voice.showQueueCommand(message);
+    @SimpleCommand('queue')
+    private showQueueCommand(command: SimpleCommandMessage){
+        this.voice.showQueueCommand(command.message);
     }
 
-    @Command('shuffle')
-    private shuffleCommand(message: CommandMessage){
-        this.voice.shuffleCommand(message);
+    @SimpleCommand('shuffle')
+    private shuffleCommand(command: SimpleCommandMessage){
+        this.voice.shuffleCommand(command.message);
     }
 
-    @Command('stop')
-    private stopCommand(message: CommandMessage){
-        this.voice.stopCommand(message)
+    @SimpleCommand('stop')
+    private stopCommand(command: SimpleCommandMessage){
+        this.voice.stopCommand(command.message)
     }
 
-    @Command('loop')
-    private loopCommand(message: CommandMessage){
-        this.voice.loopCommand(message)
+    @SimpleCommand('loop')
+    private loopCommand(command: SimpleCommandMessage){
+        this.voice.loopCommand(command.message)
     }
 
 
     //-------------------------- MESSAGE --------------------------
 
-    @Command('hello')
-    private helloCommand(message: CommandMessage) {
-        this.message.helloCommand(message);
+    @SimpleCommand('hello')
+    private helloCommand(command: SimpleCommandMessage) {
+        this.message.helloCommand(command.message);
     }
 
-    @Command('purge :number')
-    private bulkDeleteCommand(message: CommandMessage) {
-        this.message.bulkDeleteCommand(message);
+    @SimpleCommand('purge :number')
+    private bulkDeleteCommand(command: SimpleCommandMessage) {
+        this.message.bulkDeleteCommand(command.message);
     }
 
-    @Command('help')
-    private helpCommand(message: CommandMessage) {
-        this.message.helpCommand(message);
+    @SimpleCommand('help')
+    private helpCommand(command: SimpleCommandMessage) {
+        this.message.helpCommand(command.message);
     }
 
-    @CommandNotFound()
-    private notFound(message: CommandMessage) {
+    @SimpleCommandNotFound()
+    private notFound(command: SimpleCommandMessage) {
         message.reply(`Comando não existente. Digite ${BOT_PREFIX}help`);
     }
 
-    @Command('cagaram')
-    private cagaramNoEstojoDoLeo(message: CommandMessage){
+    @SimpleCommand('cagaram')
+    private cagaramNoEstojoDoLeo(command: SimpleCommandMessage){
         // message.reply(`Cagaram no estojo do <@243107174186876930> denovo? Q otario haha`);me marca
         message.channel.send('Cagaram no estojo do <@243107174186876930> denovo? Q otario haha');
     }

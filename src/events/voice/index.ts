@@ -1,6 +1,7 @@
 import config from 'config';
 import { StreamDispatcher, VoiceConnection } from "discord.js";
 import { CommandMessage, CommandNotFound, Client } from "@typeit/discord";
+import { SimpleCommandMessage } from "discordx"
 import { StreamTransportOptions } from 'winston/lib/winston/transports';
 import { monitorEventLoopDelay } from 'node:perf_hooks';
 import { repeat } from 'lodash';
@@ -30,6 +31,7 @@ export default class Voice {
         message.delete({reason: 'delete play command'});
         this.player = await message.member?.voice.channel?.join();
         this.queue.push(message.args.url);
+
         if (this.queue.length < 2) {
             this.actualChannel = message;
             this.playMusic();
