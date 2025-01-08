@@ -5,8 +5,11 @@ app/compile:
 	yarn clean
 	yarn compile
 
-app/start: app/compile
-	yarn start
+app/prod/start: app/compile
+	yarn dev
+
+app/dev/start:
+	yarn dev
 
 docker/up: docker/down
 	docker compose up -d

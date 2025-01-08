@@ -1,5 +1,5 @@
 import {Service} from 'typedi';
-import LoggerHelper from '../helpers/logger';
+import LoggerHelper from '@/helpers/Logger';
 import {Client, GatewayIntentBits} from 'discord.js';
 
 @Service()

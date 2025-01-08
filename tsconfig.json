@@ -15,7 +15,11 @@
     "lib": ["es2022"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "build"
+    "outDir": "build",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
   "extends": "./node_modules/gts/tsconfig-google.json",
   "include": [

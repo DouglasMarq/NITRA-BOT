@@ -1,8 +1,8 @@
 import {Client, Events} from 'discord.js';
 import {Service} from 'typedi';
-import LoggerHelper from '../../helpers/logger';
-import EventsHandler from './EventsHandler';
-import ClientService from '../ClientService';
+import LoggerHelper from '@/helpers/Logger';
+import EventsHandler from '@/core/events/EventsHandler';
+import ClientService from '@/core/ClientService';
 
 @Service()
 export default class EventsService {

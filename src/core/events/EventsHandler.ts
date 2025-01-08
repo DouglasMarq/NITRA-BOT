@@ -1,6 +1,7 @@
 import {Service} from 'typedi';
-import LoggerHelper from '../../helpers/logger';
+import LoggerHelper from '@/helpers/Logger';
 import {Client} from 'discord.js';
+import {CommandsEnums} from '@/helpers/CommandsEnums';
 
 @Service()
 export default class EventsHandler {
@@ -14,8 +15,14 @@ export default class EventsHandler {
   public handleInteractionCreate = async (interaction: any) => {
     if (!interaction.isChatInputCommand()) return;
 
-    if (interaction.commandName === 'ping') {
+    if (interaction.commandName === CommandsEnums.PING) {
       await interaction.reply('Pong!');
+    }
+
+    if (interaction.commandName === CommandsEnums.ROLL) {
+      await interaction.reply(
+        Math.floor(Math.random() * (6 - 1 + 1) + 1).toString(),
+      );
     }
   };
 }

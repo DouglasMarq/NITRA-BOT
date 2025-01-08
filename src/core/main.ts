@@ -1,8 +1,8 @@
 import {REST, Routes} from 'discord.js';
 import {Service} from 'typedi';
-import EventsService from './events/EventsService';
-import LoggerHelper from '../helpers/logger';
-import CommandsService from './CommandsService';
+import EventsService from '@/core/events/EventsService';
+import LoggerHelper from '@/helpers/Logger';
+import CommandsService from '@/core/CommandsService';
 
 @Service()
 export default class Core {
@@ -27,9 +27,22 @@ export default class Core {
 
     try {
       this.logger.info('Started refreshing application (/) commands.');
+      this.logger.info(
+        `Total of ${commands.length} loaded. Current commands are: ${commands.map(command => command.name).join(', ')}`,
+      );
 
       await rest.put(
         Routes.applicationCommands(process.env.DISCORD_BOT_CLIENT_ID!),
+        {
+          body: commands,
+        },
+      );
+
+      await rest.put(
+        Routes.applicationGuildCommands(
+          process.env.DISCORD_BOT_CLIENT_ID!,
+          '199537517576454145',
+        ),
         {
           body: commands,
         },
