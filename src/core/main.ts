@@ -1,6 +1,6 @@
 import {REST, Routes} from 'discord.js';
 import {Service} from 'typedi';
-import EventsService from './EventsService';
+import EventsService from './events/EventsService';
 import LoggerHelper from '../helpers/logger';
 import CommandsService from './CommandsService';
 
