@@ -2,6 +2,7 @@ app/install:
 	yarn
 
 app/compile:
+	yarn clean
 	yarn compile
 
 app/start: app/compile

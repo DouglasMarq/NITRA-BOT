@@ -1,0 +1,37 @@
+{
+  "name": "nitrabot",
+  "version": "1.0.0",
+  "main": "main.ts",
+  "repository": "git@github.com:DouglasMarq/NITRA-BOT.git",
+  "author": "Douglas Marques Alves <douglas.marq.alves@outlook.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "gts": "^6.0.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@discordjs/voice": "^0.18.0",
+    "@dotenvx/dotenvx": "^1.32.1",
+    "discord.js": "^14.17.2",
+    "reflect-metadata": "^0.2.2",
+    "typedi": "^0.10.0",
+    "winston": "^3.17.0"
+  },
+  "scripts": {
+    "start": "node build/src/main.js",
+    "dev": "ts-node-dev --respawn --transpile-only main.ts",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "posttest": "yarn run lint"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

@@ -1,9 +1,10 @@
 import {Client, Events, GatewayIntentBits} from 'discord.js';
 import {Service} from 'typedi';
+import LoggerHelper from '../helpers/logger';
 
 @Service()
 export default class EventsService {
-  constructor() {
+  constructor(private logger: LoggerHelper) {
     this.init();
   }
 
@@ -11,7 +12,7 @@ export default class EventsService {
     const client = new Client({intents: [GatewayIntentBits.Guilds]});
 
     client.on(Events.ClientReady, readyClient => {
-      console.log(`Logged in as ${readyClient.user.tag}!`);
+      this.logger.info(`Logged in as ${readyClient.user.tag}!`);
       readyClient.user.setActivity({name: 'with development'});
     });
 
@@ -23,6 +24,6 @@ export default class EventsService {
       }
     });
 
-    void client.login(process.env.DISCORD_TOKEN!);
+    void client.login(process.env.DISCORD_BOT_TOKEN!);
   }
 }
