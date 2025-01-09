@@ -12,7 +12,14 @@ export default class ClientService {
   }
 
   private async init() {
-    this.discordClient = new Client({intents: [GatewayIntentBits.Guilds]});
+    this.discordClient = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+      ],
+    });
 
     await this.discordClient.login(process.env.DISCORD_BOT_TOKEN!);
   }

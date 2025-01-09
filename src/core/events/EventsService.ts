@@ -25,5 +25,9 @@ export default class EventsService {
       Events.InteractionCreate,
       this.eventsHandler.handleInteractionCreate,
     );
+    this.client.on(
+      Events.MessageDelete,
+      this.eventsHandler.handleMessageDelete,
+    );
   }
 }
