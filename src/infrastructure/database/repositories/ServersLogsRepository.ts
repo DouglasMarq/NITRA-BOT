@@ -12,14 +12,8 @@ export class ServersLogsRepository extends EntityRepository<ServersLogs> {
     userId: string;
     createdAt: Date;
   }): Promise<void> {
-    const serverLog = this.getEntityManager().create(ServersLogs, data);
+    const serverLog = this.create(data);
 
-    await this.getEntityManager().persistAndFlush(serverLog);
-
-    // const em = this.getEntityManager();
-    //
-    // const serverLog = em.create(ServersLogs, data);
-    //
-    // await em.persistAndFlush(serverLog);
+    await this.em.persistAndFlush(serverLog);
   }
 }

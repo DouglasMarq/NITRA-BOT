@@ -3,12 +3,26 @@ import LoggerHelper from '@/helpers/Logger';
 import {MikroORM, Options, PostgreSqlDriver} from '@mikro-orm/postgresql';
 import {ServersLogsRepository} from '@/infrastructure/database/repositories/ServersLogsRepository';
 import {ServersLogs} from '@/infrastructure/database/entities/ServersLogs';
+import {ServerRepository} from "@/infrastructure/database/repositories/ServerRepository";
+import {Server} from "@/infrastructure/database/entities/Server";
 
-@Service()
 export default class DatabaseService {
   private orm: MikroORM | null = null;
 
-  constructor(private logger: LoggerHelper) {}
+  constructor(private logger: LoggerHelper) {
+    void this.init();
+  }
+
+  async init() {
+    this.logger.info('DatabaseService is starting..');
+    await this.connect();
+    Container.set(ServersLogsRepository, new ServersLogsRepository(this.getEntityManager(), ServersLogs));
+    Container.set(ServerRepository, new ServerRepository(this.getEntityManager(), Server));
+  }
+
+  async isConnected(): Promise<boolean | undefined> {
+    return this.orm?.isConnected();
+  }
 
   async connect(): Promise<void> {
     try {
@@ -37,11 +51,6 @@ export default class DatabaseService {
       };
 
       this.orm = await MikroORM.init(config);
-
-      Container.set(
-        ServersLogsRepository,
-        new ServersLogsRepository(this.getEntityManager(), ServersLogs),
-      );
 
       if (process.env.NODE_ENV === 'development') {
         const generator = this.orm.getSchemaGenerator();
