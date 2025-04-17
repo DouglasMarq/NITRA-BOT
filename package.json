@@ -1,58 +1,39 @@
 {
-  "name": "api-rest-ts",
+  "name": "nitrabot",
   "version": "1.0.0",
-  "description": "A TypeScript simple application template",
-  "main": "bin/index.ts",
-  "scripts": {
-    "start": "npm run build && node ./dist/index.js",
-    "clean": "rm -Rf ./dist",
-    "build": "npm run clean && tsc && cp ./src/.env ./dist/.env",
-    "build2": "npm run clean && tsc && cp ./src/.env ./dist/.env && cp -R ./src/storage ./dist",
-    "watch": "tsc-watch --onSuccess \"npm start\"",
-    "serve": "npm run build && npm run seed && npm run start",
-    "test": "jest --detectOpenHandles",
-    "test-watch": "tsc-watch --onSuccess \"npm test\"",
-    "seed": "node ./dist/bin/seeder"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DouglasMarq/NITRA-BOT/"
-  },
-  "keywords": [
-    "template",
-    "node",
-    "express",
-    "simple",
-    "github",
-    "typescript"
-  ],
+  "main": "main.ts",
+  "repository": "git@github.com:DouglasMarq/NITRA-BOT.git",
   "author": "Douglas Marques Alves <douglas.marq.alves@outlook.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/DouglasMarq/NITRA-BOT/issues"
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
   },
   "devDependencies": {
-    "@types/config": "^0.0.40",
-    "@types/jsonwebtoken": "^8.5.5",
-    "@types/lodash": "^4.14.176",
-    "@types/node": "^16.11.6",
-    "ts-node": "^10.4.0",
-    "tsc-watch": "^4.2.9",
-    "tslib": "^2.2.0",
-    "typescript": "^4.2.4"
+    "@types/node": "22.14.0",
+    "gts": "^6.0.2",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
-    "axios": "^0.21.4",
-    "config": "^3.3.4",
-    "discord.js": "^13.2.0",
-    "discordx": "^7.1.0",
-    "dotenv": "^10.0.0",
-    "inversify": "^6.0.1",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.21",
-    "mongoose": "^5.11.18",
-    "reflect-metadata": "^0.1.13",
-    "winston": "^3.3.3",
-    "ytdl-core": "^4.5.0"
-  }
+    "@discordjs/voice": "^0.18.0",
+    "@dotenvx/dotenvx": "^1.40.0",
+    "discord.js": "^14.18.0",
+    "reflect-metadata": "^0.2.2",
+    "typedi": "^0.10.0",
+    "winston": "^3.17.0"
+  },
+  "scripts": {
+    "start": "TS_NODE_BASEURL=./build node -r tsconfig-paths/register build/src/main.js",
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/main.ts",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "posttest": "yarn run lint"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
