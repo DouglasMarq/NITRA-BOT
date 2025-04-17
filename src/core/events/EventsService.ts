@@ -1,7 +1,7 @@
 import {Client, Events} from 'discord.js';
 import {Service} from 'typedi';
 import LoggerHelper from '@/helpers/Logger';
-import EventsHandler from '@/core/events/EventsHandler';
+import EventsHandler from '@/core/events/handlers/EventsHandler';
 import ClientService from '@/core/ClientService';
 
 @Service()

@@ -28,15 +28,19 @@ export default class LoggerHelper {
     }
   }
 
-  error(message: string) {
-    this.winston?.error(message);
+  error(message: string, ...meta: any[]) {
+    this.winston?.error(message, ...meta);
   }
 
-  info(message: string) {
-    this.winston?.info(message);
+  info(message: string, ...meta: any[]) {
+    this.winston?.info(message, ...meta);
   }
 
-  debug(message: string) {
-    this.winston?.debug(message);
+  debug(message: string, ...meta: any[]) {
+    this.winston?.debug(message, ...meta);
+  }
+
+  warn(message: string, ...meta: any[]) {
+    this.winston?.warn(message, ...meta);
   }
 }

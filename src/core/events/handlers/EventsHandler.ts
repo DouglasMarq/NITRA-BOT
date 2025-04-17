@@ -1,16 +1,15 @@
 import {Service} from 'typedi';
 import LoggerHelper from '@/helpers/Logger';
 import {
-  Channel,
   Client,
   Interaction,
   Message,
   OmitPartialGroupDMChannel,
   PartialMessage,
 } from 'discord.js';
-import {CommandsEnums} from '@/helpers/CommandsEnums';
 import ClientService from '@/core/ClientService';
 import MessageServices from '@/core/MessageServices';
+import CommandService from '@/core/commands/CommandService';
 
 @Service()
 export default class EventsHandler {
@@ -18,6 +17,7 @@ export default class EventsHandler {
     private logger: LoggerHelper,
     private discordClient: ClientService,
     private messageServices: MessageServices,
+    private commandService: CommandService,
   ) {
     this.client = this.discordClient.getClient();
   }
@@ -30,22 +30,9 @@ export default class EventsHandler {
   };
 
   public handleInteractionCreate = async (interaction: Interaction) => {
-    //todo - refactor this entire function and split into smaller one with proper context and services
     if (!interaction.isChatInputCommand()) return;
 
-    if (interaction.commandName === CommandsEnums.PING) {
-      const sent = await interaction.reply('Pinging...');
-
-      await interaction.editReply({
-        content: `Hey, i took: ${sent.createdTimestamp - interaction.createdTimestamp}ms to reply to ur message! Also, Pong 🏓`,
-      });
-    }
-
-    if (interaction.commandName === CommandsEnums.ROLL) {
-      await interaction.reply(
-        Math.floor(Math.random() * (6 - 1 + 1) + 1).toString(),
-      );
-    }
+    await this.commandService.executeCommand(interaction);
   };
 
   public handleMessageDelete = async (

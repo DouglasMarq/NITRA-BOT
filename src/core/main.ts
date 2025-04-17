@@ -31,12 +31,12 @@ export default class Core {
         `Total of ${commands.length} loaded. Current commands are: ${commands.map(command => command.name).join(', ')}`,
       );
 
-      await rest.put(
-        Routes.applicationCommands(process.env.DISCORD_BOT_CLIENT_ID!),
-        {
-          body: commands,
-        },
-      );
+      // await rest.put(
+      //   Routes.applicationCommands(process.env.DISCORD_BOT_CLIENT_ID!),
+      //   {
+      //     body: commands,
+      //   },
+      // );
 
       await rest.put(
         Routes.applicationGuildCommands(
