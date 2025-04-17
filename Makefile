@@ -5,6 +5,9 @@ app/compile:
 	yarn clean
 	yarn compile
 
+app/lint/fix:
+	yarn fix
+
 app/prod/start: app/compile
 	yarn dev
 

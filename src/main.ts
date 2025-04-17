@@ -5,7 +5,7 @@ import LoggerHelper from '@/helpers/Logger';
 import CommandsService from '@/core/CommandsService';
 import DatabaseService from '@/infrastructure/database/DatabaseService';
 import '@/helpers/dotenvx-config';
-import EventsService from "@/core/events/EventsService";
+import EventsService from '@/core/events/EventsService';
 
 const init = async () => {
   Container.set(LoggerHelper, new LoggerHelper());
@@ -18,9 +18,9 @@ const init = async () => {
     new Core(
       Container.get(EventsService),
       Container.get(LoggerHelper),
-      Container.get(CommandsService)
+      Container.get(CommandsService),
     );
   }
-}
+};
 
-init();
+void init();

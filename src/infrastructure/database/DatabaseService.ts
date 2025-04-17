@@ -1,10 +1,10 @@
-import {Container, Service} from 'typedi';
+import {Container} from 'typedi';
 import LoggerHelper from '@/helpers/Logger';
 import {MikroORM, Options, PostgreSqlDriver} from '@mikro-orm/postgresql';
 import {ServersLogsRepository} from '@/infrastructure/database/repositories/ServersLogsRepository';
 import {ServersLogs} from '@/infrastructure/database/entities/ServersLogs';
-import {ServerRepository} from "@/infrastructure/database/repositories/ServerRepository";
-import {Server} from "@/infrastructure/database/entities/Server";
+import {ServerRepository} from '@/infrastructure/database/repositories/ServerRepository';
+import {Server} from '@/infrastructure/database/entities/Server';
 
 export default class DatabaseService {
   private orm: MikroORM | null = null;
@@ -16,8 +16,14 @@ export default class DatabaseService {
   async init() {
     this.logger.info('DatabaseService is starting..');
     await this.connect();
-    Container.set(ServersLogsRepository, new ServersLogsRepository(this.getEntityManager(), ServersLogs));
-    Container.set(ServerRepository, new ServerRepository(this.getEntityManager(), Server));
+    Container.set(
+      ServersLogsRepository,
+      new ServersLogsRepository(this.getEntityManager(), ServersLogs),
+    );
+    Container.set(
+      ServerRepository,
+      new ServerRepository(this.getEntityManager(), Server),
+    );
   }
 
   async isConnected(): Promise<boolean | undefined> {
