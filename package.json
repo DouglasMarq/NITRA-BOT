@@ -19,9 +19,12 @@
   "dependencies": {
     "@discordjs/voice": "^0.18.0",
     "@dotenvx/dotenvx": "^1.40.0",
+    "@mikro-orm/core": "^6.4.13",
+    "@mikro-orm/postgresql": "^6.4.13",
     "discord.js": "^14.18.0",
     "reflect-metadata": "^0.2.2",
     "typedi": "^0.10.0",
+    "uuid": "^11.1.0",
     "winston": "^3.17.0"
   },
   "scripts": {

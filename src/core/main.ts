@@ -3,6 +3,7 @@ import {Service} from 'typedi';
 import EventsService from '@/core/events/EventsService';
 import LoggerHelper from '@/helpers/Logger';
 import CommandsService from '@/core/CommandsService';
+import DatabaseService from '@/infrastructure/database/DatabaseService';
 
 @Service()
 export default class Core {
@@ -10,12 +11,14 @@ export default class Core {
     private eventsService: EventsService,
     private logger: LoggerHelper,
     private commands: CommandsService,
+    private databaseService: DatabaseService,
   ) {
     this.init();
   }
 
   init() {
     void this.loadCommands();
+    void this.databaseService.connect();
   }
 
   private async loadCommands() {
