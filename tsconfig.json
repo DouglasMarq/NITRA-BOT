@@ -19,7 +19,7 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["*"]
-    }
+    },
   },
   "extends": "./node_modules/gts/tsconfig-google.json",
   "include": [

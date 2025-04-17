@@ -51,7 +51,13 @@ export default class EventsHandler {
     )?.channels.cache.get(message.channelId);
 
     this.messageServices
-      .sendMessage(channel!, message.content!, message.author!.displayName)
+      .sendMessage(
+        channel!,
+        message.content!,
+        channel!.guildId,
+        message.author!.id,
+        message.author!.displayName,
+      )
       .catch(err => {
         this.logger.error(`Error sending message: ${err}`);
       });
