@@ -32,16 +32,5 @@ export default class MessageServices {
     );
 
     await this.serverLogsService.logServerMessage(serverId, content, userId);
-
-    // const em = this.databaseService.getEntityManager();
-    //
-    // const serverLog = em.create('ServersLogs', {
-    //   serverId,
-    //   message: content,
-    //   userId,
-    //   createdAt: new Date(),
-    // });
-    //
-    // await em.persistAndFlush(serverLog);
   };
 }
