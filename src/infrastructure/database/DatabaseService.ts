@@ -9,9 +9,7 @@ import {Server} from '@/infrastructure/database/entities/Server';
 export default class DatabaseService {
   private orm: MikroORM | null = null;
 
-  constructor(private logger: LoggerHelper) {
-    void this.init();
-  }
+  constructor(private logger: LoggerHelper) {}
 
   async init() {
     this.logger.info('DatabaseService is starting..');
